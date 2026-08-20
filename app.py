@@ -28,8 +28,8 @@ st.write('La Gioconda o Mona Lisa, es una célebre obra pictórica al óleo de L
         
         )
            
-st.markdown(f"Quieres escucharlo?, copia el texto")
-text = st.text_area("Ingrese El texto a escuchar.")
+st.markdown(f"¿Quieres escucharlo?, Copia el texto")
+text = st.text_area("Ingrese el texto a escuchar.")
 
 tld='com'
 option_lang = st.selectbox(
@@ -53,7 +53,7 @@ def text_to_speech(text, tld,lg):
 
 #display_output_text = st.checkbox("Verifica el texto")
 
-if st.button("convertir a Audio"):
+if st.button("Convertir a audio"):
      result, output_text = text_to_speech(text, 'com',lg)#'tld
      audio_file = open(f"temp/{result}.mp3", "rb")
      audio_bytes = audio_file.read()
