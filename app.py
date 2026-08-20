@@ -7,8 +7,8 @@ from gtts import gTTS
 from PIL import Image
 import base64
 
-st.title("Conversión de Texto a Audio")
-image = Image.open('gato_raton.png')
+st.title("Sitio oficial del Museo del Louvre")
+image = Image.open('monalisa.jpg')
 st.image(image, width=350)
 with st.sidebar:
     st.subheader("Esrcibe y/o selecciona texto para ser escuchado.")
@@ -19,13 +19,12 @@ try:
 except:
     pass
 
-st.subheader("Una pequeña Fábula.")
-st.write('¡Ay! -dijo el ratón-. El mundo se hace cada día más pequeño. Al principio era tan grande que le tenía miedo. '  
-         ' Corría y corría y por cierto que me alegraba ver esos muros, a diestra y siniestra, en la distancia. ' 
-         ' Pero esas paredes se estrechan tan rápido que me encuentro en el último cuarto y ahí en el rincón está '  
-         ' la trampa sobre la cual debo pasar. Todo lo que debes hacer es cambiar de rumbo dijo el gato...y se lo comió. ' 
-         '  '
-         ' Franz Kafka.'
+st.subheader("La Monalisa")
+st.write('La Gioconda o Mona Lisa, es una célebre obra pictórica al óleo de Leonardo da Vinci,  '  
+         ' creada en su natal Florencia entre los años 1503 y 1506, ' 
+         ' posiblemente continuando hasta aproximadamente 1515 o 1517, '  
+         ' aunque esta fecha de conclusión tan imprecisa es objeto de debate. ' 
+         ' La teoría más aceptada indica que retrata a Lisa Gherardini, la esposa del rico comerciante de sedas Francesco del Giocondo, motivo por el cual lleva también el nombre de La Gioconda.'
         
         )
            
