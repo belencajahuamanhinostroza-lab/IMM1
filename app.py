@@ -347,7 +347,34 @@ with st.sidebar:
         """,
         unsafe_allow_html=True
     )
+st.markdown("---")
 
+    st.markdown(
+        """
+        <p style="
+        color:#ffffff;
+        font-family:Poppins,sans-serif;
+        font-size:10px;
+        letter-spacing:1.5px;
+        ">
+        COLECCIÓN PERMANENTE
+        </p>
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        """
+        <p style="
+        color:#d6b36a;
+        font-family:Poppins,sans-serif;
+        font-size:16px;
+        ">
+        Leonardo da Vinci
+        </p>
+        """,
+        unsafe_allow_html=True
+    )
 
 # =========================================================
 # CARPETA TEMPORAL
