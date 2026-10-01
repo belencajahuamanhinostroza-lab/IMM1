@@ -27,7 +27,7 @@ st.markdown("""
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap');
 
 /* =====================================================
-   FONDO GENERAL
+   FONDO GENERAL - SE MANTIENE
 ===================================================== */
 
 .stApp {
@@ -58,10 +58,7 @@ st.markdown("""
 }
 
 /* =====================================================
-   ELEMENTOS DE STREAMLIT
-   IMPORTANTE:
-   NO OCULTAMOS EL HEADER NI EL TOOLBAR
-   PARA CONSERVAR EL BOTÓN DEL SIDEBAR
+   STREAMLIT
 ===================================================== */
 
 #MainMenu {
@@ -72,9 +69,35 @@ footer {
     visibility: hidden;
 }
 
-/* Dejamos visible el encabezado de Streamlit */
+/* NO ocultamos el header porque aquí está el botón
+   para abrir/cerrar la barra lateral */
+
 header {
     background: transparent !important;
+}
+
+/* =====================================================
+   ÍCONO DEL SIDEBAR - BLANCO
+===================================================== */
+
+[data-testid="stSidebarCollapsedControl"] button {
+    color: #ffffff !important;
+}
+
+[data-testid="stSidebarCollapsedControl"] button svg {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+    stroke: #ffffff !important;
+}
+
+[data-testid="stSidebarCollapsedControl"] button:hover {
+    color: #ffffff !important;
+}
+
+[data-testid="stSidebarCollapsedControl"] button:hover svg {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+    stroke: #ffffff !important;
 }
 
 /* =====================================================
@@ -150,7 +173,7 @@ header {
 }
 
 /* =====================================================
-   IMAGEN
+   CUADRO DE LA IMAGEN - SE MANTIENE
 ===================================================== */
 
 .image-frame {
@@ -190,7 +213,7 @@ section[data-testid="stSidebar"] p {
 }
 
 /* =====================================================
-   TEXTOS Y ETIQUETAS
+   ETIQUETAS
 ===================================================== */
 
 label {
@@ -198,34 +221,43 @@ label {
     color: #ffffff !important;
 }
 
+/* =====================================================
+   SELECTOR DE IDIOMA
+===================================================== */
+
 div[data-baseweb="select"] * {
     font-family: 'Poppins', sans-serif !important;
     color: #ffffff !important;
 }
 
+div[data-baseweb="select"] > div {
+    background-color: rgba(0,0,0,0.35) !important;
+    border: 1px solid rgba(217,164,65,0.45) !important;
+}
+
 /* =====================================================
-   CAJA DE TEXTO
+   CUADRO "ESCRIBE AQUÍ EL TEXTO"
+   MARRÓN OSCURO + BORDE DORADO
 ===================================================== */
 
 textarea {
     font-family: 'Poppins', sans-serif !important;
     color: #ffffff !important;
-    background-color: rgba(0,0,0,0.35) !important;
-    border: 1px solid rgba(217,164,65,0.45) !important;
+
+    background-color: #241109 !important;
+
+    border: 1px solid #d9a441 !important;
+    border-radius: 5px !important;
+}
+
+textarea:focus {
+    border: 1px solid #d9a441 !important;
+    box-shadow: 0 0 0 1px #d9a441 !important;
 }
 
 textarea::placeholder {
     color: #ffffff !important;
-    opacity: 0.75 !important;
-}
-
-/* =====================================================
-   SELECTOR DE IDIOMA
-===================================================== */
-
-div[data-baseweb="select"] > div {
-    background-color: rgba(0,0,0,0.35) !important;
-    border: 1px solid rgba(217,164,65,0.45) !important;
+    opacity: 0.8 !important;
 }
 
 /* =====================================================
@@ -242,6 +274,7 @@ div[data-baseweb="select"] > div {
     );
 
     color: #1a0c05 !important;
+
     border: none;
     border-radius: 4px;
 
@@ -279,7 +312,7 @@ div[data-baseweb="select"] > div {
 }
 
 /* =====================================================
-   SEPARADOR
+   SEPARACIÓN ENTRE SECCIONES - SE MANTIENE
 ===================================================== */
 
 .separator {
@@ -289,7 +322,7 @@ div[data-baseweb="select"] > div {
 }
 
 /* =====================================================
-   PIE
+   FOOTER
 ===================================================== */
 
 .footer {
@@ -360,14 +393,17 @@ except:
 
 
 # =========================================================
-# INFORMACIÓN DE LA MONA LISA
+# CONTENIDO PRINCIPAL
 # =========================================================
 
-col1, col2 = st.columns([0.95, 1.25], gap="large")
+col1, col2 = st.columns(
+    [0.95, 1.25],
+    gap="large"
+)
 
 
 # =========================================================
-# COLUMNA IZQUIERDA
+# IMAGEN
 # =========================================================
 
 with col1:
@@ -391,7 +427,7 @@ with col1:
 
 
 # =========================================================
-# COLUMNA DERECHA
+# INFORMACIÓN DE LA OBRA
 # =========================================================
 
 with col2:
@@ -463,8 +499,12 @@ st.markdown(
 )
 
 
+# =========================================================
+# CAJA DE TEXTO
+# =========================================================
+
 text = st.text_area(
-    "Ingrese el texto a escuchar.",
+    "Escribe aquí el texto",
     height=150,
     placeholder="Escribe aquí el texto de la audioguía..."
 )
@@ -501,7 +541,6 @@ def text_to_speech(text, tld, lg):
     except:
         my_file_name = "audio"
 
-    # Evitar caracteres problemáticos en el nombre
     my_file_name = "".join(
         c for c in my_file_name
         if c.isalnum() or c in (" ", "_", "-")
@@ -518,13 +557,16 @@ def text_to_speech(text, tld, lg):
 
 
 # =========================================================
-# BOTÓN CONVERTIR
+# CONVERTIR A AUDIO
 # =========================================================
 
 if st.button("CONVERTIR A AUDIO"):
 
     if text.strip() == "":
-        st.warning("Escribe un texto antes de convertirlo en audio.")
+
+        st.warning(
+            "Escribe un texto antes de convertirlo en audio."
+        )
 
     else:
 
@@ -585,7 +627,7 @@ if st.button("CONVERTIR A AUDIO"):
 
 
 # =========================================================
-# LIMPIEZA DE ARCHIVOS ANTIGUOS
+# LIMPIEZA DE AUDIOS ANTIGUOS
 # =========================================================
 
 def remove_files(n):
@@ -608,7 +650,7 @@ remove_files(7)
 
 
 # =========================================================
-# FOOTER
+# PIE DE PÁGINA
 # =========================================================
 
 st.markdown(
