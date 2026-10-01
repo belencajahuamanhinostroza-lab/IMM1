@@ -1,5 +1,5 @@
 /* ==================================================
-   BOTÓN DEL SIDEBAR
+   BOTON DEL SIDEBAR
    ================================================== */
 
 [data-testid="stSidebarCollapsedControl"] {
