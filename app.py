@@ -56,34 +56,6 @@ st.markdown("""
     background-attachment: fixed; 
     color: #ffffff; 
 } 
- /* =====================================================
-   ELEMENTOS DE STREAMLIT
-   IMPORTANTE:
-   NO OCULTAMOS EL HEADER NI EL TOOLBAR
-   PARA CONSERVAR EL BOTÓN DEL SIDEBAR
-===================================================== */
-
-#MainMenu {
-    visibility: hidden;
-}
-
-footer {
-    visibility: hidden;
-}
-
-/* Dejamos visible el encabezado de Streamlit */
-header {
-    background: transparent !important;
-}
-/* ================================================== 
-   CONTENEDOR 
-   ================================================== */ 
- 
-.block-container { 
-    padding-top: 2rem; 
-    padding-bottom: 4rem; 
-    max-width: 1200px; 
-} 
  
 /* ================================================== 
    TIPOGRAFÍA 
