@@ -29,31 +29,28 @@ st.markdown("""
 .stApp {
     background:
         radial-gradient(
-            circle at 15% 15%,
-            rgba(119, 82, 35, 0.18) 0%,
-            rgba(0, 0, 0, 0) 32%
+            circle at 10% 15%,
+            rgba(183, 119, 48, 0.38) 0%,
+            rgba(183, 119, 48, 0.12) 22%,
+            transparent 45%
         ),
         radial-gradient(
-            circle at 85% 80%,
-            rgba(72, 38, 21, 0.20) 0%,
-            rgba(0, 0, 0, 0) 35%
+            circle at 90% 80%,
+            rgba(126, 38, 52, 0.42) 0%,
+            rgba(126, 38, 52, 0.15) 25%,
+            transparent 52%
         ),
         linear-gradient(
-            135deg,
-            #050505 0%,
-            #100c09 30%,
-            #18110c 55%,
-            #0b0908 78%,
-            #020202 100%
+            120deg,
+            #020202 0%,
+            #170907 18%,
+            #451914 40%,
+            #2b1111 58%,
+            #16090a 78%,
+            #010101 100%
         );
+    background-attachment: fixed;
     color: #eee8dc;
-}
-
-/* QUITAR ESPACIO SUPERIOR */
-.block-container {
-    padding-top: 2rem;
-    padding-bottom: 4rem;
-    max-width: 1200px;
 }
 
 /* TÍTULOS */
