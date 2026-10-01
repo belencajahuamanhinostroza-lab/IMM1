@@ -6,9 +6,9 @@ import base64
 from gtts import gTTS
 from PIL import Image
 
-# --------------------------------------------------
+# ==================================================
 # CONFIGURACIÓN
-# --------------------------------------------------
+# ==================================================
 
 st.set_page_config(
     page_title="Museo del Louvre",
@@ -16,16 +16,19 @@ st.set_page_config(
     layout="wide"
 )
 
-# --------------------------------------------------
+# ==================================================
 # ESTILOS
-# --------------------------------------------------
+# ==================================================
 
 st.markdown("""
 <style>
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
-/* FONDO GENERAL */
+/* ==================================================
+   FONDO GENERAL
+   ================================================== */
+
 .stApp {
     background:
         radial-gradient(
@@ -49,25 +52,44 @@ st.markdown("""
             #16090a 78%,
             #010101 100%
         );
+
     background-attachment: fixed;
-    color: #eee8dc;
+    color: #ffffff;
 }
 
-/* TÍTULOS */
-h1, h2, h3 {
-    font-family: 'Montserrat', sans-serif !important;
-    letter-spacing: 2px;
+/* ==================================================
+   TIPOGRAFÍA GENERAL
+   ================================================== */
+
+.stApp,
+.stApp p,
+.stApp label,
+.stApp span,
+.stApp div,
+.stApp textarea,
+.stApp input,
+.stApp button,
+.stApp select {
+    font-family: 'Poppins', sans-serif !important;
 }
 
-/* TEXTO NORMAL */
-p, label, .stMarkdown {
-    font-family: Georgia, 'Times New Roman', serif;
+/* ==================================================
+   CONTENEDOR
+   ================================================== */
+
+.block-container {
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+    max-width: 1200px;
 }
 
-/* TÍTULO PRINCIPAL */
+/* ==================================================
+   TÍTULO PRINCIPAL
+   ================================================== */
+
 .museum-title {
     text-align: center;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Poppins', sans-serif !important;
     font-size: 38px;
     font-weight: 500;
     letter-spacing: 7px;
@@ -76,213 +98,394 @@ p, label, .stMarkdown {
     margin-bottom: 5px;
 }
 
-/* SUBTÍTULO */
+/* ==================================================
+   SUBTÍTULO PRINCIPAL
+   ================================================== */
+
 .museum-subtitle {
     text-align: center;
-    font-family: Georgia, 'Times New Roman', serif;
-    font-size: 17px;
-    font-style: italic;
-    color: #c8c0b2;
+    font-family: 'Poppins', sans-serif !important;
+    font-size: 15px;
+    font-weight: 300;
+    color: #ffffff !important;
     margin-bottom: 25px;
 }
 
-/* LÍNEA DORADA */
+/* ==================================================
+   LÍNEA DORADA
+   ================================================== */
+
 .gold-line {
     height: 1px;
-    width: 130px;
+    width: 150px;
+
     background: linear-gradient(
         90deg,
         transparent,
-        #c9a45c,
+        #d6b36a,
         transparent
     );
+
     margin: 0 auto 45px auto;
 }
 
-/* TARJETA PRINCIPAL */
-.art-card {
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255,255,255,0.055),
-            rgba(255,255,255,0.015)
-        );
-    border: 1px solid rgba(201,164,92,0.25);
-    border-radius: 4px;
-    padding: 28px;
-    box-shadow:
-        0 20px 60px rgba(0,0,0,0.45),
-        inset 0 1px 0 rgba(255,255,255,0.04);
-}
+/* ==================================================
+   SIDEBAR
+   ================================================== */
 
-/* TÍTULO DE OBRA */
-.art-title {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 28px;
-    font-weight: 500;
-    letter-spacing: 3px;
-    color: #d6b36a;
-    margin-bottom: 5px;
-}
-
-/* SUBTÍTULO DE OBRA */
-.art-subtitle {
-    font-family: Georgia, 'Times New Roman', serif;
-    font-size: 16px;
-    font-style: italic;
-    color: #aaa296;
-    margin-bottom: 22px;
-}
-
-/* TEXTO DE LA OBRA */
-.art-description {
-    font-family: Georgia, 'Times New Roman', serif;
-    font-size: 17px;
-    line-height: 1.85;
-    color: #e1dbcf;
-    text-align: justify;
-}
-
-/* MARCO DE IMAGEN */
-.image-frame {
-    padding: 9px;
-    background:
-        linear-gradient(
-            145deg,
-            #d1af68,
-            #6f542d,
-            #d1af68
-        );
-    box-shadow:
-        0 15px 45px rgba(0,0,0,0.65);
-}
-
-/* TEXTO DE AUDIO */
-.audio-title {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 18px;
-    letter-spacing: 2px;
-    color: #d6b36a;
-    margin-top: 35px;
-}
-
-/* SIDEBAR */
 section[data-testid="stSidebar"] {
+
     background:
         linear-gradient(
             180deg,
-            #0b0907 0%,
-            #15100b 55%,
-            #080706 100%
+            rgba(8, 4, 4, 0.97),
+            rgba(32, 10, 11, 0.97),
+            rgba(7, 4, 4, 0.98)
         );
-    border-right: 1px solid rgba(201,164,92,0.18);
+
+    border-right: 1px solid rgba(214, 179, 106, 0.25);
 }
+
+/* Textos sidebar */
+
+section[data-testid="stSidebar"] p,
+section[data-testid="stSidebar"] span,
+section[data-testid="stSidebar"] label {
+
+    font-family: 'Poppins', sans-serif !important;
+    color: #ffffff !important;
+}
+
+/* Títulos sidebar */
 
 section[data-testid="stSidebar"] h2,
 section[data-testid="stSidebar"] h3 {
+
     color: #d6b36a !important;
-    font-family: 'Montserrat', sans-serif !important;
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 500;
     letter-spacing: 2px;
 }
 
-/* TEXT AREA */
+/* ==================================================
+   TARJETA DE LA OBRA
+   ================================================== */
+
+.art-card {
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.07),
+            rgba(255,255,255,0.015)
+        );
+
+    border: 1px solid rgba(214,179,106,0.25);
+
+    border-radius: 5px;
+
+    padding: 28px;
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,0.55),
+        inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+/* ==================================================
+   TÍTULO DE LA OBRA
+   ================================================== */
+
+.art-title {
+
+    font-family: 'Poppins', sans-serif !important;
+
+    font-size: 28px;
+
+    font-weight: 500;
+
+    letter-spacing: 3px;
+
+    color: #d6b36a;
+
+    margin-bottom: 5px;
+}
+
+/* ==================================================
+   SUBTÍTULO DE LA OBRA
+   ================================================== */
+
+.art-subtitle {
+
+    font-family: 'Poppins', sans-serif !important;
+
+    font-size: 14px;
+
+    font-weight: 300;
+
+    color: #ffffff !important;
+
+    margin-bottom: 22px;
+}
+
+/* ==================================================
+   DESCRIPCIÓN
+   ================================================== */
+
+.art-description {
+
+    font-family: 'Poppins', sans-serif !important;
+
+    font-size: 15px;
+
+    font-weight: 300;
+
+    line-height: 1.9;
+
+    color: #ffffff !important;
+
+    text-align: justify;
+}
+
+/* ==================================================
+   MARCO DE LA IMAGEN
+   ================================================== */
+
+.image-frame {
+
+    padding: 8px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #d6b36a,
+            #715329,
+            #d6b36a
+        );
+
+    box-shadow:
+        0 18px 50px rgba(0,0,0,0.65);
+}
+
+/* ==================================================
+   AUDIOGUÍA
+   ================================================== */
+
+.audio-title {
+
+    font-family: 'Poppins', sans-serif !important;
+
+    font-size: 18px;
+
+    font-weight: 500;
+
+    letter-spacing: 2px;
+
+    color: #d6b36a !important;
+
+    margin-top: 35px;
+}
+
+/* ==================================================
+   TEXTAREA
+   ================================================== */
+
 .stTextArea textarea {
-    background: rgba(10,9,8,0.75) !important;
-    color: #eee8dc !important;
-    border: 1px solid rgba(201,164,92,0.35) !important;
-    border-radius: 3px !important;
-    font-family: Georgia, 'Times New Roman', serif !important;
-    font-size: 16px !important;
+
+    background: rgba(5, 4, 4, 0.75) !important;
+
+    color: #ffffff !important;
+
+    border: 1px solid rgba(214,179,106,0.35) !important;
+
+    border-radius: 4px !important;
+
+    font-family: 'Poppins', sans-serif !important;
+
+    font-size: 14px !important;
 }
 
 .stTextArea textarea:focus {
-    border: 1px solid #c9a45c !important;
-    box-shadow: 0 0 12px rgba(201,164,92,0.12) !important;
+
+    border: 1px solid #d6b36a !important;
+
+    box-shadow:
+        0 0 15px rgba(214,179,106,0.15) !important;
 }
 
-/* SELECTBOX */
+/* Placeholder */
+
+.stTextArea textarea::placeholder {
+
+    color: rgba(255,255,255,0.65) !important;
+
+    font-family: 'Poppins', sans-serif !important;
+}
+
+/* ==================================================
+   SELECTBOX
+   ================================================== */
+
 div[data-baseweb="select"] > div {
-    background: rgba(10,9,8,0.75) !important;
-    border: 1px solid rgba(201,164,92,0.30) !important;
-    color: #eee8dc !important;
+
+    background: rgba(5,4,4,0.8) !important;
+
+    border: 1px solid rgba(214,179,106,0.35) !important;
+
+    color: #ffffff !important;
 }
 
-/* BOTÓN */
+div[data-baseweb="select"] * {
+
+    font-family: 'Poppins', sans-serif !important;
+
+    color: #ffffff !important;
+}
+
+/* ==================================================
+   LABELS
+   ================================================== */
+
+label,
+[data-testid="stWidgetLabel"] p {
+
+    color: #ffffff !important;
+
+    font-family: 'Poppins', sans-serif !important;
+
+    font-weight: 400;
+}
+
+/* ==================================================
+   BOTÓN
+   ================================================== */
+
 .stButton > button {
+
     width: 100%;
+
     background:
         linear-gradient(
             135deg,
-            #c9a45c,
-            #9e7939
+            #d6b36a,
+            #a47c38
         );
+
     color: #090807 !important;
+
     border: none;
-    border-radius: 2px;
-    padding: 12px 25px;
-    font-family: 'Montserrat', sans-serif;
+
+    border-radius: 3px;
+
+    padding: 13px 25px;
+
+    font-family: 'Poppins', sans-serif !important;
+
+    font-size: 13px;
+
     font-weight: 600;
+
     letter-spacing: 1.5px;
+
     transition: all 0.3s ease;
 }
 
 .stButton > button:hover {
+
     background:
         linear-gradient(
             135deg,
-            #e0c27b,
-            #b58b45
+            #e5c87e,
+            #bd934c
         );
-    box-shadow: 0 8px 25px rgba(201,164,92,0.20);
+
+    box-shadow:
+        0 8px 30px rgba(214,179,106,0.25);
+
     transform: translateY(-1px);
 }
 
-/* AUDIO */
+/* ==================================================
+   AUDIO
+   ================================================== */
+
 audio {
+
     width: 100%;
+
     margin-top: 10px;
 }
 
-/* DIVISOR */
+/* ==================================================
+   DIVISOR
+   ================================================== */
+
 hr {
+
     border: none;
+
     height: 1px;
+
     background:
         linear-gradient(
             90deg,
             transparent,
-            rgba(201,164,92,0.35),
+            rgba(214,179,106,0.4),
             transparent
         );
+
     margin: 45px 0;
 }
 
-/* LINK DE DESCARGA */
+/* ==================================================
+   LINK DE DESCARGA
+   ================================================== */
+
 .download-link {
+
     display: inline-block;
+
     margin-top: 15px;
-    padding: 10px 18px;
-    border: 1px solid rgba(201,164,92,0.45);
+
+    padding: 10px 20px;
+
+    border: 1px solid rgba(214,179,106,0.5);
+
     color: #d6b36a !important;
+
     text-decoration: none;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 13px;
+
+    font-family: 'Poppins', sans-serif !important;
+
+    font-size: 12px;
+
     letter-spacing: 1px;
+
     transition: 0.3s;
 }
 
 .download-link:hover {
-    background: rgba(201,164,92,0.10);
+
+    background: rgba(214,179,106,0.10);
+
     border-color: #d6b36a;
 }
 
-/* PIE */
+/* ==================================================
+   FOOTER
+   ================================================== */
+
 .footer {
+
     text-align: center;
+
     margin-top: 70px;
-    color: #756f66;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 11px;
+
+    color: #ffffff !important;
+
+    font-family: 'Poppins', sans-serif !important;
+
+    font-size: 10px;
+
     letter-spacing: 2px;
 }
 
@@ -290,9 +493,9 @@ hr {
 """, unsafe_allow_html=True)
 
 
-# --------------------------------------------------
+# ==================================================
 # ENCABEZADO
-# --------------------------------------------------
+# ==================================================
 
 st.markdown(
     '<div class="museum-title">MUSEO DEL LOUVRE</div>',
@@ -310,9 +513,9 @@ st.markdown(
 )
 
 
-# --------------------------------------------------
+# ==================================================
 # SIDEBAR
-# --------------------------------------------------
+# ==================================================
 
 with st.sidebar:
 
@@ -321,9 +524,10 @@ with st.sidebar:
     st.markdown(
         """
         <p style="
-        color:#aaa296;
-        line-height:1.7;
-        font-family:Georgia;
+        color:#ffffff;
+        line-height:1.8;
+        font-family:Poppins,sans-serif;
+        font-size:14px;
         ">
         Explora la obra y utiliza la audioguía
         para escuchar el contenido seleccionado.
@@ -337,10 +541,10 @@ with st.sidebar:
     st.markdown(
         """
         <p style="
-        color:#756f66;
-        font-family:Montserrat;
-        font-size:11px;
-        letter-spacing:1px;
+        color:#ffffff;
+        font-family:Poppins,sans-serif;
+        font-size:10px;
+        letter-spacing:1.5px;
         ">
         COLECCIÓN PERMANENTE
         </p>
@@ -352,7 +556,7 @@ with st.sidebar:
         """
         <p style="
         color:#d6b36a;
-        font-family:Georgia;
+        font-family:Poppins,sans-serif;
         font-size:16px;
         ">
         Leonardo da Vinci
@@ -362,25 +566,48 @@ with st.sidebar:
     )
 
 
-# --------------------------------------------------
+# ==================================================
 # IMAGEN
-# --------------------------------------------------
+# ==================================================
 
 image = Image.open("monalisa.jpg")
 
 
-# --------------------------------------------------
-# OBRA
-# --------------------------------------------------
+# ==================================================
+# INFORMACIÓN DE LA OBRA
+# ==================================================
 
-col1, col2 = st.columns([0.95, 1.25], gap="large")
+col1, col2 = st.columns(
+    [0.95, 1.25],
+    gap="large"
+)
+
+
+# ==================================================
+# COLUMNA IZQUIERDA
+# ==================================================
 
 with col1:
 
-    st.markdown('<div class="image-frame">', unsafe_allow_html=True)
-    st.image(image, use_container_width=True)
-    st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="image-frame">',
+        unsafe_allow_html=True
+    )
 
+    st.image(
+        image,
+        use_container_width=True
+    )
+
+    st.markdown(
+        '</div>',
+        unsafe_allow_html=True
+    )
+
+
+# ==================================================
+# COLUMNA DERECHA
+# ==================================================
 
 with col2:
 
@@ -397,25 +624,29 @@ with col2:
     st.markdown(
         """
         <div class="art-description">
+
         La Gioconda o Mona Lisa es una célebre obra pictórica
         al óleo de Leonardo da Vinci, creada en su natal Florencia
         entre los años 1503 y 1506, posiblemente continuando hasta
         aproximadamente 1515 o 1517, aunque esta fecha de conclusión
         tan imprecisa es objeto de debate.
+
         <br><br>
+
         La teoría más aceptada indica que retrata a Lisa Gherardini,
         esposa del rico comerciante de sedas Francesco del Giocondo,
         motivo por el cual también recibe el nombre de
         <i>La Gioconda</i>.
+
         </div>
         """,
         unsafe_allow_html=True
     )
 
 
-# --------------------------------------------------
+# ==================================================
 # AUDIOGUÍA
-# --------------------------------------------------
+# ==================================================
 
 st.markdown("<hr>", unsafe_allow_html=True)
 
@@ -427,15 +658,21 @@ st.markdown(
 st.markdown(
     """
     <p style="
-    color:#aaa296;
-    font-family:Georgia;
-    font-size:15px;
+    color:#ffffff;
+    font-family:Poppins,sans-serif;
+    font-size:14px;
+    font-weight:300;
     ">
     Copia o escribe un texto para convertirlo en una narración.
     </p>
     """,
     unsafe_allow_html=True
 )
+
+
+# ==================================================
+# TEXTO
+# ==================================================
 
 text = st.text_area(
     "Texto para escuchar",
@@ -444,9 +681,9 @@ text = st.text_area(
 )
 
 
-# --------------------------------------------------
+# ==================================================
 # IDIOMA
-# --------------------------------------------------
+# ==================================================
 
 option_lang = st.selectbox(
     "Idioma de la audioguía",
@@ -454,24 +691,30 @@ option_lang = st.selectbox(
 )
 
 if option_lang == "Español":
+
     lg = "es"
+
 else:
+
     lg = "en"
 
 
-# --------------------------------------------------
+# ==================================================
 # CARPETA TEMPORAL
-# --------------------------------------------------
+# ==================================================
 
 try:
+
     os.mkdir("temp")
+
 except:
+
     pass
 
 
-# --------------------------------------------------
+# ==================================================
 # TEXT TO SPEECH
-# --------------------------------------------------
+# ==================================================
 
 def text_to_speech(text, lg):
 
@@ -486,6 +729,7 @@ def text_to_speech(text, lg):
     ).strip()
 
     if not safe_name:
+
         safe_name = "audio"
 
     filename = f"temp/{safe_name}.mp3"
@@ -495,9 +739,9 @@ def text_to_speech(text, lg):
     return safe_name, filename
 
 
-# --------------------------------------------------
-# BOTÓN
-# --------------------------------------------------
+# ==================================================
+# CONVERTIR A AUDIO
+# ==================================================
 
 if st.button("✦  CONVERTIR A AUDIO"):
 
@@ -514,7 +758,10 @@ if st.button("✦  CONVERTIR A AUDIO"):
             lg
         )
 
-        with open(audio_path, "rb") as audio_file:
+        with open(
+            audio_path,
+            "rb"
+        ) as audio_file:
 
             audio_bytes = audio_file.read()
 
@@ -528,9 +775,9 @@ if st.button("✦  CONVERTIR A AUDIO"):
             format="audio/mp3"
         )
 
-        # --------------------------------------------------
+        # ==================================================
         # DESCARGA
-        # --------------------------------------------------
+        # ==================================================
 
         bin_str = base64.b64encode(
             audio_bytes
@@ -540,7 +787,7 @@ if st.button("✦  CONVERTIR A AUDIO"):
         <a class="download-link"
            href="data:application/octet-stream;base64,{bin_str}"
            download="{result}.mp3">
-           ↓  GUARDAR AUDIO
+           ↓ &nbsp; GUARDAR AUDIO
         </a>
         """
 
@@ -550,9 +797,9 @@ if st.button("✦  CONVERTIR A AUDIO"):
         )
 
 
-# --------------------------------------------------
+# ==================================================
 # LIMPIAR ARCHIVOS ANTIGUOS
-# --------------------------------------------------
+# ==================================================
 
 def remove_files(n):
 
@@ -561,6 +808,7 @@ def remove_files(n):
     if len(mp3_files) != 0:
 
         now = time.time()
+
         n_days = n * 86400
 
         for f in mp3_files:
@@ -573,9 +821,9 @@ def remove_files(n):
 remove_files(7)
 
 
-# --------------------------------------------------
+# ==================================================
 # FOOTER
-# --------------------------------------------------
+# ==================================================
 
 st.markdown(
     """
