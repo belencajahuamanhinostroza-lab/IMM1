@@ -56,7 +56,25 @@ st.markdown("""
     background-attachment: fixed; 
     color: #ffffff; 
 } 
- 
+ /* =====================================================
+   ELEMENTOS DE STREAMLIT
+   IMPORTANTE:
+   NO OCULTAMOS EL HEADER NI EL TOOLBAR
+   PARA CONSERVAR EL BOTÓN DEL SIDEBAR
+===================================================== */
+
+#MainMenu {
+    visibility: hidden;
+}
+
+footer {
+    visibility: hidden;
+}
+
+/* Dejamos visible el encabezado de Streamlit */
+header {
+    background: transparent !important;
+}
 /* ================================================== 
    CONTENEDOR 
    ================================================== */ 
@@ -137,58 +155,7 @@ h1, h2, h3,
  
     margin: 0 auto 45px auto; 
 } 
- 
-/* ================================================== 
-   SIDEBAR 
-   ================================================== */ 
- 
-section[data-testid="stSidebar"] { 
-    background: 
-        linear-gradient( 
-            180deg, 
-            #100804 0%, 
-            #261308 45%, 
-            #100704 100% 
-        ); 
- 
-    border-right: 1px solid rgba(214,179,106,0.25); 
-} 
- 
-section[data-testid="stSidebar"] h2, 
-section[data-testid="stSidebar"] h3 { 
-    font-family: 'Cormorant Garamond', Georgia, serif !important; 
-    color: #d6b36a !important; 
-    font-size: 22px; 
-    letter-spacing: 2px; 
-} 
- 
-section[data-testid="stSidebar"] p, 
-section[data-testid="stSidebar"] span, 
-section[data-testid="stSidebar"] label { 
-    font-family: 'Poppins', sans-serif !important; 
-    color: #ffffff !important; 
-} 
 
-/* ==================================================
-   BOTÓN DEL SIDEBAR
-   ================================================== */
-
-[data-testid="stSidebarCollapsedControl"] {
-    color: #ffffff !important;
-}
-
-[data-testid="stSidebarCollapsedControl"] button {
-    color: #ffffff !important;
-    background: transparent !important;
-    border: none !important;
-}
-
-[data-testid="stSidebarCollapsedControl"] button svg {
-    color: #ffffff !important;
-    fill: #ffffff !important;
-    stroke: #ffffff !important;
-}
- 
 /* ================================================== 
    TÍTULO DE LA OBRA 
    ================================================== */ 
