@@ -2,32 +2,33 @@ import streamlit as st
 import os
 import time
 import glob
-import base64
 from gtts import gTTS
 from PIL import Image
+import base64
 
-# ==================================================
+# =========================================================
 # CONFIGURACIÓN
-# ==================================================
+# =========================================================
 
 st.set_page_config(
     page_title="Museo del Louvre",
     page_icon="🏛️",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-# ==================================================
+# =========================================================
 # ESTILOS
-# ==================================================
+# =========================================================
 
 st.markdown("""
 <style>
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap');
 
-/* ==================================================
-   FONDO
-   ================================================== */
+/* =====================================================
+   FONDO GENERAL
+===================================================== */
 
 .stApp {
     background:
@@ -54,255 +55,147 @@ st.markdown("""
         );
 
     background-attachment: fixed;
-    color: #ffffff;
 }
 
-/* ==================================================
+/* =====================================================
+   ELEMENTOS DE STREAMLIT
+   IMPORTANTE:
+   NO OCULTAMOS EL HEADER NI EL TOOLBAR
+   PARA CONSERVAR EL BOTÓN DEL SIDEBAR
+===================================================== */
+
+#MainMenu {
+    visibility: hidden;
+}
+
+footer {
+    visibility: hidden;
+}
+
+/* Dejamos visible el encabezado de Streamlit */
+header {
+    background: transparent !important;
+}
+
+/* =====================================================
    CONTENEDOR
-   ================================================== */
+===================================================== */
 
 .block-container {
-    padding-top: 2rem;
-    padding-bottom: 4rem;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
     max-width: 1200px;
 }
 
-/* ==================================================
-   TIPOGRAFÍA
-   ================================================== */
-
-/* TÍTULOS CON SERIFAS */
-
-h1, h2, h3,
-.museum-title,
-.art-title,
-.audio-title {
-    font-family: 'Cormorant Garamond', Georgia, serif !important;
-}
-
-/* PÁRRAFOS E INTERFAZ */
-
-.stApp p,
-.stApp label,
-.stApp span,
-.stApp textarea,
-.stApp input,
-.stApp button,
-.stApp select,
-.art-description,
-.museum-subtitle,
-.art-subtitle,
-.footer,
-.download-link {
-    font-family: 'Poppins', sans-serif !important;
-}
-
-/* ==================================================
+/* =====================================================
    TÍTULO PRINCIPAL
-   ================================================== */
+===================================================== */
 
 .museum-title {
-    text-align: center;
-    font-size: 42px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
     font-weight: 600;
-    letter-spacing: 6px;
+    letter-spacing: 7px;
     color: #ffffff;
-    margin-top: 10px;
-    margin-bottom: 3px;
+    text-align: center;
+    margin-bottom: 5px;
 }
 
-/* ==================================================
-   SUBTÍTULO PRINCIPAL
-   ================================================== */
-
 .museum-subtitle {
-    text-align: center;
-    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
     font-weight: 400;
-    color: #d6b36a !important;
-    letter-spacing: 1px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #d9a441;
+    text-align: center;
     margin-bottom: 25px;
 }
 
-/* ==================================================
-   LÍNEA DORADA
-   ================================================== */
-
 .gold-line {
-    height: 1px;
-    width: 130px;
-
-    background: linear-gradient(
-        90deg,
-        transparent,
-        #d6b36a,
-        transparent
-    );
-
+    width: 90px;
+    height: 2px;
+    background: #d9a441;
     margin: 0 auto 45px auto;
 }
 
-/* ==================================================
+/* =====================================================
+   TÍTULOS DE LA OBRA
+===================================================== */
+
+.art-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 3px;
+}
+
+.art-subtitle {
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    color: #d9a441;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+}
+
+.art-description {
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    line-height: 1.9;
+    font-weight: 300;
+    color: #ffffff;
+    text-align: justify;
+}
+
+/* =====================================================
+   IMAGEN
+===================================================== */
+
+.image-frame {
+    border: 1px solid rgba(217, 164, 65, 0.75);
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.25);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.45);
+}
+
+/* =====================================================
    SIDEBAR
-   ================================================== */
+===================================================== */
 
 section[data-testid="stSidebar"] {
     background:
         linear-gradient(
             180deg,
-            #100804 0%,
-            #261308 45%,
+            #120a06 0%,
+            #251209 50%,
             #100704 100%
         );
 
-    border-right: 1px solid rgba(214,179,106,0.25);
+    border-right: 1px solid rgba(217,164,65,0.35);
 }
 
-/* Título sidebar */
-
-section[data-testid="stSidebar"] h2,
-section[data-testid="stSidebar"] h3 {
-    font-family: 'Cormorant Garamond', Georgia, serif !important;
-    color: #d6b36a !important;
-    font-size: 22px;
-    letter-spacing: 2px;
+section[data-testid="stSidebar"] h2 {
+    font-family: 'Cormorant Garamond', serif;
+    color: #d9a441;
+    font-size: 27px;
 }
 
-/* Textos sidebar */
-
-section[data-testid="stSidebar"] p,
-section[data-testid="stSidebar"] span,
-section[data-testid="stSidebar"] label {
-    font-family: 'Poppins', sans-serif !important;
-    color: #ffffff !important;
-}
-
-/* ==================================================
-   TÍTULO DE LA OBRA
-   ================================================== */
-
-.art-title {
-    font-size: 34px;
-    font-weight: 600;
-    letter-spacing: 2px;
-    color: #ffffff;
-    margin-bottom: 2px;
-}
-
-/* ==================================================
-   SUBTÍTULO DE LA OBRA
-   ================================================== */
-
-.art-subtitle {
-    font-size: 14px;
-    font-weight: 400;
-    color: #d6b36a !important;
-    letter-spacing: 0.5px;
-    margin-bottom: 22px;
-}
-
-/* ==================================================
-   PÁRRAFO
-   ================================================== */
-
-.art-description {
-    font-size: 15px;
-    font-weight: 300;
-    line-height: 1.9;
-    color: #ffffff !important;
-    text-align: justify;
-}
-
-/* ==================================================
-   MARCO DE LA IMAGEN
-   ================================================== */
-
-.image-frame {
-    padding: 8px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #d6b36a,
-            #74552d,
-            #d6b36a
-        );
-
-    box-shadow:
-        0 18px 50px rgba(0,0,0,0.60);
-}
-
-/* ==================================================
-   AUDIOGUÍA
-   ================================================== */
-
-.audio-title {
-    font-size: 25px;
-    font-weight: 600;
-    letter-spacing: 2px;
-    color: #d6b36a !important;
-    margin-top: 35px;
-}
-
-/* ==================================================
-   TEXTO DE INDICACIÓN
-   ================================================== */
-
-.audio-description {
-    font-family: 'Poppins', sans-serif !important;
+section[data-testid="stSidebar"] p {
+    font-family: 'Poppins', sans-serif;
     color: #ffffff !important;
     font-size: 14px;
-    font-weight: 300;
+    line-height: 1.7;
 }
 
-/* ==================================================
-   TEXT AREA
-   ================================================== */
+/* =====================================================
+   TEXTOS Y ETIQUETAS
+===================================================== */
 
-.stTextArea textarea {
-    background: rgba(8,5,3,0.75) !important;
-    color: #ffffff !important;
-
-    border: 1px solid rgba(214,179,106,0.35) !important;
-
-    border-radius: 3px !important;
-
+label {
     font-family: 'Poppins', sans-serif !important;
-
-    font-size: 14px !important;
-}
-
-.stTextArea textarea:focus {
-    border: 1px solid #d6b36a !important;
-
-    box-shadow:
-        0 0 12px rgba(214,179,106,0.15) !important;
-}
-
-/* Placeholder */
-
-.stTextArea textarea::placeholder {
-    color: rgba(255,255,255,0.75) !important;
-}
-
-/* ==================================================
-   LABELS
-   ================================================== */
-
-label,
-[data-testid="stWidgetLabel"] p {
     color: #ffffff !important;
-    font-family: 'Poppins', sans-serif !important;
-}
-
-/* ==================================================
-   SELECTBOX
-   ================================================== */
-
-div[data-baseweb="select"] > div {
-    background: rgba(8,5,3,0.80) !important;
-
-    border: 1px solid rgba(214,179,106,0.35) !important;
 }
 
 div[data-baseweb="select"] * {
@@ -310,135 +203,112 @@ div[data-baseweb="select"] * {
     color: #ffffff !important;
 }
 
-/* ==================================================
+/* =====================================================
+   CAJA DE TEXTO
+===================================================== */
+
+textarea {
+    font-family: 'Poppins', sans-serif !important;
+    color: #ffffff !important;
+    background-color: rgba(0,0,0,0.35) !important;
+    border: 1px solid rgba(217,164,65,0.45) !important;
+}
+
+textarea::placeholder {
+    color: #ffffff !important;
+    opacity: 0.75 !important;
+}
+
+/* =====================================================
+   SELECTOR DE IDIOMA
+===================================================== */
+
+div[data-baseweb="select"] > div {
+    background-color: rgba(0,0,0,0.35) !important;
+    border: 1px solid rgba(217,164,65,0.45) !important;
+}
+
+/* =====================================================
    BOTÓN
-   ================================================== */
+===================================================== */
 
 .stButton > button {
     width: 100%;
 
-    background:
-        linear-gradient(
-            135deg,
-            #d6b36a,
-            #a47b38
-        );
+    background: linear-gradient(
+        135deg,
+        #d9a441,
+        #b87b25
+    );
 
-    color: #090604 !important;
-
+    color: #1a0c05 !important;
     border: none;
+    border-radius: 4px;
 
-    border-radius: 3px;
+    padding: 12px 20px;
 
-    padding: 12px 25px;
-
-    font-family: 'Poppins', sans-serif !important;
-
-    font-size: 13px;
-
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
     font-weight: 600;
 
-    letter-spacing: 1.2px;
+    letter-spacing: 1px;
 
-    transition: all 0.3s ease;
+    transition: 0.3s ease;
 }
 
 .stButton > button:hover {
-    background:
-        linear-gradient(
-            135deg,
-            #e4c77e,
-            #bd934b
-        );
-
-    box-shadow:
-        0 8px 25px rgba(214,179,106,0.20);
+    background: linear-gradient(
+        135deg,
+        #edc36a,
+        #d9a441
+    );
 
     transform: translateY(-1px);
 }
 
-/* ==================================================
+/* =====================================================
    AUDIO
-   ================================================== */
+===================================================== */
 
-audio {
-    width: 100%;
-    margin-top: 10px;
+.audio-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    color: #d9a441;
+    margin-top: 30px;
+    margin-bottom: 10px;
 }
 
-/* ==================================================
-   DIVISOR
-   ================================================== */
+/* =====================================================
+   SEPARADOR
+===================================================== */
 
-hr {
-    border: none;
-
+.separator {
     height: 1px;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            rgba(214,179,106,0.35),
-            transparent
-        );
-
+    background: rgba(217,164,65,0.35);
     margin: 45px 0;
 }
 
-/* ==================================================
-   LINK DE DESCARGA
-   ================================================== */
-
-.download-link {
-    display: inline-block;
-
-    margin-top: 15px;
-
-    padding: 10px 18px;
-
-    border: 1px solid rgba(214,179,106,0.50);
-
-    color: #d6b36a !important;
-
-    text-decoration: none;
-
-    font-size: 12px;
-
-    letter-spacing: 1px;
-
-    transition: 0.3s;
-}
-
-.download-link:hover {
-    background: rgba(214,179,106,0.10);
-
-    border-color: #d6b36a;
-}
-
-/* ==================================================
-   FOOTER
-   ================================================== */
+/* =====================================================
+   PIE
+===================================================== */
 
 .footer {
     text-align: center;
-
-    margin-top: 70px;
-
-    color: #ffffff !important;
-
-    font-size: 10px;
-
-    letter-spacing: 2px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px;
+    color: #ffffff;
+    opacity: 0.7;
+    margin-top: 50px;
+    letter-spacing: 1px;
 }
 
 </style>
 """, unsafe_allow_html=True)
 
 
-# ==================================================
+# =========================================================
 # ENCABEZADO
-# ==================================================
+# =========================================================
 
 st.markdown(
     '<div class="museum-title">MUSEO DEL LOUVRE</div>',
@@ -446,7 +316,7 @@ st.markdown(
 )
 
 st.markdown(
-    '<div class="museum-subtitle">Colección de obras maestras · Audioguía digital</div>',
+    '<div class="museum-subtitle">Colección permanente · París</div>',
     unsafe_allow_html=True
 )
 
@@ -456,81 +326,53 @@ st.markdown(
 )
 
 
-# ==================================================
+# =========================================================
 # SIDEBAR
-# ==================================================
+# =========================================================
 
 with st.sidebar:
 
-    st.markdown("### AUDIOGUÍA")
-
     st.markdown(
-        """
-        <p style="
-        color:#ffffff;
-        line-height:1.8;
-        font-family:Poppins,sans-serif;
-        font-size:14px;
-        ">
-        Explora la obra y utiliza la audioguía
-        para escuchar el contenido seleccionado.
-        </p>
-        """,
-        unsafe_allow_html=True
-    )
-
-    st.markdown("---")
-
-    st.markdown(
-        """
-        <p style="
-        color:#ffffff;
-        font-family:Poppins,sans-serif;
-        font-size:10px;
-        letter-spacing:1.5px;
-        ">
-        COLECCIÓN PERMANENTE
-        </p>
-        """,
+        '<h2>🎧 Audioguía</h2>',
         unsafe_allow_html=True
     )
 
     st.markdown(
         """
-        <p style="
-        color:#d6b36a;
-        font-family:Poppins,sans-serif;
-        font-size:16px;
-        ">
-        Leonardo da Vinci
+        <p>
+        Escribe o selecciona un texto para escucharlo.
+        Selecciona el idioma y convierte el texto en una
+        audioguía.
         </p>
         """,
         unsafe_allow_html=True
     )
 
 
-# ==================================================
-# IMAGEN
-# ==================================================
+# =========================================================
+# CARPETA TEMPORAL
+# =========================================================
 
-image = Image.open("monalisa.jpg")
-
-
-# ==================================================
-# OBRA
-# ==================================================
-
-col1, col2 = st.columns(
-    [0.95, 1.25],
-    gap="large"
-)
+try:
+    os.mkdir("temp")
+except:
+    pass
 
 
-# ==================================================
-# IMAGEN
-# ==================================================
+# =========================================================
+# INFORMACIÓN DE LA MONA LISA
+# =========================================================
+
+col1, col2 = st.columns([0.95, 1.25], gap="large")
+
+
+# =========================================================
+# COLUMNA IZQUIERDA
+# =========================================================
 
 with col1:
+
+    image = Image.open("monalisa.jpg")
 
     st.markdown(
         '<div class="image-frame">',
@@ -539,7 +381,7 @@ with col1:
 
     st.image(
         image,
-        use_container_width=True
+        width=350
     )
 
     st.markdown(
@@ -548,19 +390,19 @@ with col1:
     )
 
 
-# ==================================================
-# INFORMACIÓN
-# ==================================================
+# =========================================================
+# COLUMNA DERECHA
+# =========================================================
 
 with col2:
 
     st.markdown(
-        '<div class="art-title">LA MONA LISA</div>',
+        '<div class="art-title">La Mona Lisa</div>',
         unsafe_allow_html=True
     )
 
     st.markdown(
-        '<div class="art-subtitle">La Gioconda · Leonardo da Vinci</div>',
+        '<div class="art-subtitle">Leonardo da Vinci · Siglo XVI</div>',
         unsafe_allow_html=True
     )
 
@@ -569,17 +411,18 @@ with col2:
         <div class="art-description">
 
         La Gioconda o Mona Lisa es una célebre obra pictórica
-        al óleo de Leonardo da Vinci, creada en su natal Florencia
-        entre los años 1503 y 1506, posiblemente continuando hasta
-        aproximadamente 1515 o 1517, aunque esta fecha de conclusión
-        tan imprecisa es objeto de debate.
+        al óleo de Leonardo da Vinci, creada en su natal
+        Florencia entre los años 1503 y 1506, posiblemente
+        continuando hasta aproximadamente 1515 o 1517,
+        aunque esta fecha de conclusión tan imprecisa es
+        objeto de debate.
 
         <br><br>
 
-        La teoría más aceptada indica que retrata a Lisa Gherardini,
-        esposa del rico comerciante de sedas Francesco del Giocondo,
-        motivo por el cual también recibe el nombre de
-        <i>La Gioconda</i>.
+        La teoría más aceptada indica que retrata a
+        Lisa Gherardini, la esposa del rico comerciante
+        de sedas Francesco del Giocondo, motivo por el cual
+        lleva también el nombre de La Gioconda.
 
         </div>
         """,
@@ -587,44 +430,52 @@ with col2:
     )
 
 
-# ==================================================
-# AUDIOGUÍA
-# ==================================================
-
-st.markdown("<hr>", unsafe_allow_html=True)
+# =========================================================
+# SEPARADOR
+# =========================================================
 
 st.markdown(
-    '<div class="audio-title">AUDIOGUÍA DE LA OBRA</div>',
+    '<div class="separator"></div>',
+    unsafe_allow_html=True
+)
+
+
+# =========================================================
+# AUDIOGUÍA
+# =========================================================
+
+st.markdown(
+    '<div class="audio-title">Escucha la obra</div>',
     unsafe_allow_html=True
 )
 
 st.markdown(
     """
-    <p class="audio-description">
-    Copia o escribe un texto para convertirlo en una narración.
+    <p style="
+        font-family:Poppins, sans-serif;
+        color:white;
+        font-size:14px;
+    ">
+    Copia o escribe el texto que deseas escuchar.
     </p>
     """,
     unsafe_allow_html=True
 )
 
 
-# ==================================================
-# TEXTO
-# ==================================================
-
 text = st.text_area(
-    "Texto para escuchar",
+    "Ingrese el texto a escuchar.",
     height=150,
     placeholder="Escribe aquí el texto de la audioguía..."
 )
 
 
-# ==================================================
+# =========================================================
 # IDIOMA
-# ==================================================
+# =========================================================
 
 option_lang = st.selectbox(
-    "Idioma de la audioguía",
+    "Selecciona el idioma",
     ("Español", "English")
 )
 
@@ -634,91 +485,96 @@ else:
     lg = "en"
 
 
-# ==================================================
-# CARPETA TEMPORAL
-# ==================================================
+# =========================================================
+# FUNCIÓN TEXT TO SPEECH
+# =========================================================
 
-try:
-    os.mkdir("temp")
-except:
-    pass
-
-
-# ==================================================
-# TEXT TO SPEECH
-# ==================================================
-
-def text_to_speech(text, lg):
+def text_to_speech(text, tld, lg):
 
     tts = gTTS(
         text=text,
         lang=lg
     )
 
-    safe_name = "".join(
-        c for c in text[:20]
+    try:
+        my_file_name = text[0:20]
+    except:
+        my_file_name = "audio"
+
+    # Evitar caracteres problemáticos en el nombre
+    my_file_name = "".join(
+        c for c in my_file_name
         if c.isalnum() or c in (" ", "_", "-")
-    ).strip()
+    )
 
-    if not safe_name:
-        safe_name = "audio"
+    if not my_file_name:
+        my_file_name = "audio"
 
-    filename = f"temp/{safe_name}.mp3"
+    file_path = f"temp/{my_file_name}.mp3"
 
-    tts.save(filename)
+    tts.save(file_path)
 
-    return safe_name, filename
+    return my_file_name, text
 
 
-# ==================================================
-# BOTÓN
-# ==================================================
+# =========================================================
+# BOTÓN CONVERTIR
+# =========================================================
 
-if st.button("✦  CONVERTIR A AUDIO"):
+if st.button("CONVERTIR A AUDIO"):
 
-    if not text.strip():
-
-        st.warning(
-            "Escribe un texto antes de generar la audioguía."
-        )
+    if text.strip() == "":
+        st.warning("Escribe un texto antes de convertirlo en audio.")
 
     else:
 
-        result, audio_path = text_to_speech(
+        result, output_text = text_to_speech(
             text,
+            "com",
             lg
         )
 
-        with open(
-            audio_path,
-            "rb"
-        ) as audio_file:
+        audio_path = f"temp/{result}.mp3"
+
+        with open(audio_path, "rb") as audio_file:
 
             audio_bytes = audio_file.read()
 
         st.markdown(
-            '<div class="audio-title">REPRODUCCIÓN</div>',
+            '<div class="audio-title">Tu audioguía</div>',
             unsafe_allow_html=True
         )
 
         st.audio(
             audio_bytes,
-            format="audio/mp3"
+            format="audio/mp3",
+            start_time=0
         )
 
-        # ==================================================
+        # =================================================
         # DESCARGA
-        # ==================================================
+        # =================================================
 
-        bin_str = base64.b64encode(
-            audio_bytes
-        ).decode()
+        with open(audio_path, "rb") as f:
+
+            data = f.read()
+
+        bin_str = base64.b64encode(data).decode()
 
         href = f"""
-        <a class="download-link"
-           href="data:application/octet-stream;base64,{bin_str}"
-           download="{result}.mp3">
-           ↓ &nbsp; GUARDAR AUDIO
+        <a href="data:audio/mp3;base64,{bin_str}"
+           download="{os.path.basename(audio_path)}"
+           style="
+               display:inline-block;
+               margin-top:15px;
+               padding:10px 18px;
+               border:1px solid #d9a441;
+               color:#d9a441;
+               text-decoration:none;
+               font-family:Poppins,sans-serif;
+               font-size:13px;
+           ">
+           Descargar audioguía
         </a>
         """
 
@@ -728,9 +584,9 @@ if st.button("✦  CONVERTIR A AUDIO"):
         )
 
 
-# ==================================================
-# LIMPIEZA
-# ==================================================
+# =========================================================
+# LIMPIEZA DE ARCHIVOS ANTIGUOS
+# =========================================================
 
 def remove_files(n):
 
@@ -751,14 +607,14 @@ def remove_files(n):
 remove_files(7)
 
 
-# ==================================================
+# =========================================================
 # FOOTER
-# ==================================================
+# =========================================================
 
 st.markdown(
     """
     <div class="footer">
-    MUSÉE DU LOUVRE · PARIS · DIGITAL AUDIO GUIDE
+        MUSEO DEL LOUVRE · AUDIOGUÍA DIGITAL
     </div>
     """,
     unsafe_allow_html=True
