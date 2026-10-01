@@ -23,54 +23,38 @@ st.set_page_config(
 st.markdown("""
 <style>
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap');
 
 /* ==================================================
-   FONDO GENERAL
+   FONDO
    ================================================== */
 
 .stApp {
     background:
         radial-gradient(
-            circle at 10% 15%,
-            rgba(183, 119, 48, 0.38) 0%,
-            rgba(183, 119, 48, 0.12) 22%,
-            transparent 45%
+            circle at 8% 10%,
+            rgba(173, 112, 55, 0.28) 0%,
+            rgba(100, 55, 25, 0.15) 25%,
+            transparent 48%
         ),
         radial-gradient(
-            circle at 90% 80%,
-            rgba(126, 38, 52, 0.42) 0%,
-            rgba(126, 38, 52, 0.15) 25%,
-            transparent 52%
+            circle at 90% 85%,
+            rgba(120, 70, 35, 0.30) 0%,
+            rgba(75, 38, 20, 0.16) 28%,
+            transparent 55%
         ),
         linear-gradient(
-            120deg,
-            #020202 0%,
-            #170907 18%,
-            #451914 40%,
-            #2b1111 58%,
-            #16090a 78%,
-            #010101 100%
+            125deg,
+            #090604 0%,
+            #1c0f08 20%,
+            #3a1e10 42%,
+            #512a14 58%,
+            #261309 78%,
+            #070403 100%
         );
 
     background-attachment: fixed;
     color: #ffffff;
-}
-
-/* ==================================================
-   TIPOGRAFÍA GENERAL
-   ================================================== */
-
-.stApp,
-.stApp p,
-.stApp label,
-.stApp span,
-.stApp div,
-.stApp textarea,
-.stApp input,
-.stApp button,
-.stApp select {
-    font-family: 'Poppins', sans-serif !important;
 }
 
 /* ==================================================
@@ -84,18 +68,47 @@ st.markdown("""
 }
 
 /* ==================================================
+   TIPOGRAFÍA
+   ================================================== */
+
+/* TÍTULOS CON SERIFAS */
+
+h1, h2, h3,
+.museum-title,
+.art-title,
+.audio-title {
+    font-family: 'Cormorant Garamond', Georgia, serif !important;
+}
+
+/* PÁRRAFOS E INTERFAZ */
+
+.stApp p,
+.stApp label,
+.stApp span,
+.stApp textarea,
+.stApp input,
+.stApp button,
+.stApp select,
+.art-description,
+.museum-subtitle,
+.art-subtitle,
+.footer,
+.download-link {
+    font-family: 'Poppins', sans-serif !important;
+}
+
+/* ==================================================
    TÍTULO PRINCIPAL
    ================================================== */
 
 .museum-title {
     text-align: center;
-    font-family: 'Poppins', sans-serif !important;
-    font-size: 38px;
-    font-weight: 500;
-    letter-spacing: 7px;
-    color: #d6b36a;
+    font-size: 42px;
+    font-weight: 600;
+    letter-spacing: 6px;
+    color: #ffffff;
     margin-top: 10px;
-    margin-bottom: 5px;
+    margin-bottom: 3px;
 }
 
 /* ==================================================
@@ -104,10 +117,10 @@ st.markdown("""
 
 .museum-subtitle {
     text-align: center;
-    font-family: 'Poppins', sans-serif !important;
-    font-size: 15px;
-    font-weight: 300;
-    color: #ffffff !important;
+    font-size: 14px;
+    font-weight: 400;
+    color: #d6b36a !important;
+    letter-spacing: 1px;
     margin-bottom: 25px;
 }
 
@@ -117,7 +130,7 @@ st.markdown("""
 
 .gold-line {
     height: 1px;
-    width: 150px;
+    width: 130px;
 
     background: linear-gradient(
         90deg,
@@ -134,16 +147,25 @@ st.markdown("""
    ================================================== */
 
 section[data-testid="stSidebar"] {
-
     background:
         linear-gradient(
             180deg,
-            rgba(8, 4, 4, 0.97),
-            rgba(32, 10, 11, 0.97),
-            rgba(7, 4, 4, 0.98)
+            #100804 0%,
+            #261308 45%,
+            #100704 100%
         );
 
-    border-right: 1px solid rgba(214, 179, 106, 0.25);
+    border-right: 1px solid rgba(214,179,106,0.25);
+}
+
+/* Título sidebar */
+
+section[data-testid="stSidebar"] h2,
+section[data-testid="stSidebar"] h3 {
+    font-family: 'Cormorant Garamond', Georgia, serif !important;
+    color: #d6b36a !important;
+    font-size: 22px;
+    letter-spacing: 2px;
 }
 
 /* Textos sidebar */
@@ -151,44 +173,8 @@ section[data-testid="stSidebar"] {
 section[data-testid="stSidebar"] p,
 section[data-testid="stSidebar"] span,
 section[data-testid="stSidebar"] label {
-
     font-family: 'Poppins', sans-serif !important;
     color: #ffffff !important;
-}
-
-/* Títulos sidebar */
-
-section[data-testid="stSidebar"] h2,
-section[data-testid="stSidebar"] h3 {
-
-    color: #d6b36a !important;
-    font-family: 'Poppins', sans-serif !important;
-    font-weight: 500;
-    letter-spacing: 2px;
-}
-
-/* ==================================================
-   TARJETA DE LA OBRA
-   ================================================== */
-
-.art-card {
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255,255,255,0.07),
-            rgba(255,255,255,0.015)
-        );
-
-    border: 1px solid rgba(214,179,106,0.25);
-
-    border-radius: 5px;
-
-    padding: 28px;
-
-    box-shadow:
-        0 20px 60px rgba(0,0,0,0.55),
-        inset 0 1px 0 rgba(255,255,255,0.04);
 }
 
 /* ==================================================
@@ -196,18 +182,11 @@ section[data-testid="stSidebar"] h3 {
    ================================================== */
 
 .art-title {
-
-    font-family: 'Poppins', sans-serif !important;
-
-    font-size: 28px;
-
-    font-weight: 500;
-
-    letter-spacing: 3px;
-
-    color: #d6b36a;
-
-    margin-bottom: 5px;
+    font-size: 34px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: #ffffff;
+    margin-bottom: 2px;
 }
 
 /* ==================================================
@@ -215,34 +194,22 @@ section[data-testid="stSidebar"] h3 {
    ================================================== */
 
 .art-subtitle {
-
-    font-family: 'Poppins', sans-serif !important;
-
     font-size: 14px;
-
-    font-weight: 300;
-
-    color: #ffffff !important;
-
+    font-weight: 400;
+    color: #d6b36a !important;
+    letter-spacing: 0.5px;
     margin-bottom: 22px;
 }
 
 /* ==================================================
-   DESCRIPCIÓN
+   PÁRRAFO
    ================================================== */
 
 .art-description {
-
-    font-family: 'Poppins', sans-serif !important;
-
     font-size: 15px;
-
     font-weight: 300;
-
     line-height: 1.9;
-
     color: #ffffff !important;
-
     text-align: justify;
 }
 
@@ -251,19 +218,18 @@ section[data-testid="stSidebar"] h3 {
    ================================================== */
 
 .image-frame {
-
     padding: 8px;
 
     background:
         linear-gradient(
             145deg,
             #d6b36a,
-            #715329,
+            #74552d,
             #d6b36a
         );
 
     box-shadow:
-        0 18px 50px rgba(0,0,0,0.65);
+        0 18px 50px rgba(0,0,0,0.60);
 }
 
 /* ==================================================
@@ -271,33 +237,35 @@ section[data-testid="stSidebar"] h3 {
    ================================================== */
 
 .audio-title {
-
-    font-family: 'Poppins', sans-serif !important;
-
-    font-size: 18px;
-
-    font-weight: 500;
-
+    font-size: 25px;
+    font-weight: 600;
     letter-spacing: 2px;
-
     color: #d6b36a !important;
-
     margin-top: 35px;
 }
 
 /* ==================================================
-   TEXTAREA
+   TEXTO DE INDICACIÓN
+   ================================================== */
+
+.audio-description {
+    font-family: 'Poppins', sans-serif !important;
+    color: #ffffff !important;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+/* ==================================================
+   TEXT AREA
    ================================================== */
 
 .stTextArea textarea {
-
-    background: rgba(5, 4, 4, 0.75) !important;
-
+    background: rgba(8,5,3,0.75) !important;
     color: #ffffff !important;
 
     border: 1px solid rgba(214,179,106,0.35) !important;
 
-    border-radius: 4px !important;
+    border-radius: 3px !important;
 
     font-family: 'Poppins', sans-serif !important;
 
@@ -305,40 +273,16 @@ section[data-testid="stSidebar"] h3 {
 }
 
 .stTextArea textarea:focus {
-
     border: 1px solid #d6b36a !important;
 
     box-shadow:
-        0 0 15px rgba(214,179,106,0.15) !important;
+        0 0 12px rgba(214,179,106,0.15) !important;
 }
 
 /* Placeholder */
 
 .stTextArea textarea::placeholder {
-
-    color: rgba(255,255,255,0.65) !important;
-
-    font-family: 'Poppins', sans-serif !important;
-}
-
-/* ==================================================
-   SELECTBOX
-   ================================================== */
-
-div[data-baseweb="select"] > div {
-
-    background: rgba(5,4,4,0.8) !important;
-
-    border: 1px solid rgba(214,179,106,0.35) !important;
-
-    color: #ffffff !important;
-}
-
-div[data-baseweb="select"] * {
-
-    font-family: 'Poppins', sans-serif !important;
-
-    color: #ffffff !important;
+    color: rgba(255,255,255,0.75) !important;
 }
 
 /* ==================================================
@@ -347,12 +291,23 @@ div[data-baseweb="select"] * {
 
 label,
 [data-testid="stWidgetLabel"] p {
-
     color: #ffffff !important;
-
     font-family: 'Poppins', sans-serif !important;
+}
 
-    font-weight: 400;
+/* ==================================================
+   SELECTBOX
+   ================================================== */
+
+div[data-baseweb="select"] > div {
+    background: rgba(8,5,3,0.80) !important;
+
+    border: 1px solid rgba(214,179,106,0.35) !important;
+}
+
+div[data-baseweb="select"] * {
+    font-family: 'Poppins', sans-serif !important;
+    color: #ffffff !important;
 }
 
 /* ==================================================
@@ -360,23 +315,22 @@ label,
    ================================================== */
 
 .stButton > button {
-
     width: 100%;
 
     background:
         linear-gradient(
             135deg,
             #d6b36a,
-            #a47c38
+            #a47b38
         );
 
-    color: #090807 !important;
+    color: #090604 !important;
 
     border: none;
 
     border-radius: 3px;
 
-    padding: 13px 25px;
+    padding: 12px 25px;
 
     font-family: 'Poppins', sans-serif !important;
 
@@ -384,22 +338,21 @@ label,
 
     font-weight: 600;
 
-    letter-spacing: 1.5px;
+    letter-spacing: 1.2px;
 
     transition: all 0.3s ease;
 }
 
 .stButton > button:hover {
-
     background:
         linear-gradient(
             135deg,
-            #e5c87e,
-            #bd934c
+            #e4c77e,
+            #bd934b
         );
 
     box-shadow:
-        0 8px 30px rgba(214,179,106,0.25);
+        0 8px 25px rgba(214,179,106,0.20);
 
     transform: translateY(-1px);
 }
@@ -409,9 +362,7 @@ label,
    ================================================== */
 
 audio {
-
     width: 100%;
-
     margin-top: 10px;
 }
 
@@ -420,7 +371,6 @@ audio {
    ================================================== */
 
 hr {
-
     border: none;
 
     height: 1px;
@@ -429,7 +379,7 @@ hr {
         linear-gradient(
             90deg,
             transparent,
-            rgba(214,179,106,0.4),
+            rgba(214,179,106,0.35),
             transparent
         );
 
@@ -441,20 +391,17 @@ hr {
    ================================================== */
 
 .download-link {
-
     display: inline-block;
 
     margin-top: 15px;
 
-    padding: 10px 20px;
+    padding: 10px 18px;
 
-    border: 1px solid rgba(214,179,106,0.5);
+    border: 1px solid rgba(214,179,106,0.50);
 
     color: #d6b36a !important;
 
     text-decoration: none;
-
-    font-family: 'Poppins', sans-serif !important;
 
     font-size: 12px;
 
@@ -464,7 +411,6 @@ hr {
 }
 
 .download-link:hover {
-
     background: rgba(214,179,106,0.10);
 
     border-color: #d6b36a;
@@ -475,14 +421,11 @@ hr {
    ================================================== */
 
 .footer {
-
     text-align: center;
 
     margin-top: 70px;
 
     color: #ffffff !important;
-
-    font-family: 'Poppins', sans-serif !important;
 
     font-size: 10px;
 
@@ -574,7 +517,7 @@ image = Image.open("monalisa.jpg")
 
 
 # ==================================================
-# INFORMACIÓN DE LA OBRA
+# OBRA
 # ==================================================
 
 col1, col2 = st.columns(
@@ -584,7 +527,7 @@ col1, col2 = st.columns(
 
 
 # ==================================================
-# COLUMNA IZQUIERDA
+# IMAGEN
 # ==================================================
 
 with col1:
@@ -606,7 +549,7 @@ with col1:
 
 
 # ==================================================
-# COLUMNA DERECHA
+# INFORMACIÓN
 # ==================================================
 
 with col2:
@@ -657,12 +600,7 @@ st.markdown(
 
 st.markdown(
     """
-    <p style="
-    color:#ffffff;
-    font-family:Poppins,sans-serif;
-    font-size:14px;
-    font-weight:300;
-    ">
+    <p class="audio-description">
     Copia o escribe un texto para convertirlo en una narración.
     </p>
     """,
@@ -691,11 +629,8 @@ option_lang = st.selectbox(
 )
 
 if option_lang == "Español":
-
     lg = "es"
-
 else:
-
     lg = "en"
 
 
@@ -704,11 +639,8 @@ else:
 # ==================================================
 
 try:
-
     os.mkdir("temp")
-
 except:
-
     pass
 
 
@@ -729,7 +661,6 @@ def text_to_speech(text, lg):
     ).strip()
 
     if not safe_name:
-
         safe_name = "audio"
 
     filename = f"temp/{safe_name}.mp3"
@@ -740,7 +671,7 @@ def text_to_speech(text, lg):
 
 
 # ==================================================
-# CONVERTIR A AUDIO
+# BOTÓN
 # ==================================================
 
 if st.button("✦  CONVERTIR A AUDIO"):
@@ -798,7 +729,7 @@ if st.button("✦  CONVERTIR A AUDIO"):
 
 
 # ==================================================
-# LIMPIAR ARCHIVOS ANTIGUOS
+# LIMPIEZA
 # ==================================================
 
 def remove_files(n):
@@ -808,7 +739,6 @@ def remove_files(n):
     if len(mp3_files) != 0:
 
         now = time.time()
-
         n_days = n * 86400
 
         for f in mp3_files:
