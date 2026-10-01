@@ -3,14 +3,12 @@ import os
 import time
 import glob
 import base64
-
 from gtts import gTTS
 from PIL import Image
 
-
-# ==========================================
+# --------------------------------------------------
 # CONFIGURACIÓN
-# ==========================================
+# --------------------------------------------------
 
 st.set_page_config(
     page_title="Museo del Louvre",
@@ -18,166 +16,286 @@ st.set_page_config(
     layout="wide"
 )
 
-
-# ==========================================
+# --------------------------------------------------
 # ESTILOS
-# ==========================================
+# --------------------------------------------------
 
 st.markdown("""
 <style>
 
-/* ---------- FONDO GENERAL ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@300;400;500;600&display=swap');
 
+/* FONDO GENERAL */
 .stApp {
-    background-color: #0b0b0b;
-    color: #eeeeee;
+    background:
+        radial-gradient(
+            circle at 15% 15%,
+            rgba(119, 82, 35, 0.18) 0%,
+            rgba(0, 0, 0, 0) 32%
+        ),
+        radial-gradient(
+            circle at 85% 80%,
+            rgba(72, 38, 21, 0.20) 0%,
+            rgba(0, 0, 0, 0) 35%
+        ),
+        linear-gradient(
+            135deg,
+            #050505 0%,
+            #100c09 30%,
+            #18110c 55%,
+            #0b0908 78%,
+            #020202 100%
+        );
+    color: #eee8dc;
 }
 
+/* QUITAR ESPACIO SUPERIOR */
+.block-container {
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+    max-width: 1200px;
+}
 
-/* ---------- TÍTULOS ---------- */
-
+/* TÍTULOS */
 h1, h2, h3 {
-    font-family: Arial, Helvetica, sans-serif !important;
-    color: #d4af37 !important;
-    letter-spacing: 1px;
+    font-family: 'Montserrat', sans-serif !important;
+    letter-spacing: 2px;
 }
 
-
-/* ---------- TEXTO NORMAL ---------- */
-
+/* TEXTO NORMAL */
 p, label, .stMarkdown {
-    color: #dddddd;
-    font-family: Georgia, "Times New Roman", serif;
-    line-height: 1.7;
+    font-family: Georgia, 'Times New Roman', serif;
 }
 
-
-/* ---------- TÍTULO PRINCIPAL ---------- */
-
+/* TÍTULO PRINCIPAL */
 .museum-title {
     text-align: center;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 48px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    color: #d4af37;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 38px;
+    font-weight: 500;
+    letter-spacing: 7px;
+    color: #d6b36a;
     margin-top: 10px;
     margin-bottom: 5px;
 }
 
+/* SUBTÍTULO */
 .museum-subtitle {
     text-align: center;
-    color: #aaa;
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: Georgia, 'Times New Roman', serif;
     font-size: 17px;
-    margin-bottom: 35px;
-}
-
-
-/* ---------- LÍNEA DORADA ---------- */
-
-.gold-line {
-    height: 2px;
-    background: #d4af37;
-    width: 80%;
-    margin: 10px auto 30px auto;
-}
-
-
-/* ---------- TARJETAS ---------- */
-
-.museum-card {
-    background-color: #151515;
-    border: 1px solid #8f7424;
-    padding: 25px;
-    border-radius: 4px;
+    font-style: italic;
+    color: #c8c0b2;
     margin-bottom: 25px;
 }
 
-
-/* ---------- IMAGEN ---------- */
-
-.image-frame {
-    border: 1px solid #d4af37;
-    padding: 8px;
-    background-color: #111111;
+/* LÍNEA DORADA */
+.gold-line {
+    height: 1px;
+    width: 130px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        #c9a45c,
+        transparent
+    );
+    margin: 0 auto 45px auto;
 }
 
-
-/* ---------- BOTONES ---------- */
-
-.stButton > button {
-    background-color: #d4af37;
-    color: #080808;
-    border: none;
-    border-radius: 3px;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
-    padding: 10px 25px;
-}
-
-.stButton > button:hover {
-    background-color: #f0d66a;
-    color: #000000;
-}
-
-
-/* ---------- SELECTBOX Y TEXT AREA ---------- */
-
-.stSelectbox > div > div,
-.stTextArea textarea {
-    background-color: #171717 !important;
-    color: #eeeeee !important;
-    border: 1px solid #8f7424 !important;
-}
-
-
-/* ---------- CÁMARA / INPUT ---------- */
-
-.stFileUploader,
-[data-testid="stCameraInput"] {
-    background-color: #151515;
-    border: 1px solid #8f7424;
+/* TARJETA PRINCIPAL */
+.art-card {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.055),
+            rgba(255,255,255,0.015)
+        );
+    border: 1px solid rgba(201,164,92,0.25);
     border-radius: 4px;
+    padding: 28px;
+    box-shadow:
+        0 20px 60px rgba(0,0,0,0.45),
+        inset 0 1px 0 rgba(255,255,255,0.04);
 }
 
+/* TÍTULO DE OBRA */
+.art-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    color: #d6b36a;
+    margin-bottom: 5px;
+}
 
-/* ---------- SIDEBAR ---------- */
+/* SUBTÍTULO DE OBRA */
+.art-subtitle {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 16px;
+    font-style: italic;
+    color: #aaa296;
+    margin-bottom: 22px;
+}
 
+/* TEXTO DE LA OBRA */
+.art-description {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 17px;
+    line-height: 1.85;
+    color: #e1dbcf;
+    text-align: justify;
+}
+
+/* MARCO DE IMAGEN */
+.image-frame {
+    padding: 9px;
+    background:
+        linear-gradient(
+            145deg,
+            #d1af68,
+            #6f542d,
+            #d1af68
+        );
+    box-shadow:
+        0 15px 45px rgba(0,0,0,0.65);
+}
+
+/* TEXTO DE AUDIO */
+.audio-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    letter-spacing: 2px;
+    color: #d6b36a;
+    margin-top: 35px;
+}
+
+/* SIDEBAR */
 section[data-testid="stSidebar"] {
-    background-color: #111111;
-    border-right: 1px solid #8f7424;
+    background:
+        linear-gradient(
+            180deg,
+            #0b0907 0%,
+            #15100b 55%,
+            #080706 100%
+        );
+    border-right: 1px solid rgba(201,164,92,0.18);
 }
 
 section[data-testid="stSidebar"] h2,
 section[data-testid="stSidebar"] h3 {
-    color: #d4af37 !important;
+    color: #d6b36a !important;
+    font-family: 'Montserrat', sans-serif !important;
+    letter-spacing: 2px;
 }
 
+/* TEXT AREA */
+.stTextArea textarea {
+    background: rgba(10,9,8,0.75) !important;
+    color: #eee8dc !important;
+    border: 1px solid rgba(201,164,92,0.35) !important;
+    border-radius: 3px !important;
+    font-family: Georgia, 'Times New Roman', serif !important;
+    font-size: 16px !important;
+}
 
-/* ---------- AUDIO ---------- */
+.stTextArea textarea:focus {
+    border: 1px solid #c9a45c !important;
+    box-shadow: 0 0 12px rgba(201,164,92,0.12) !important;
+}
 
+/* SELECTBOX */
+div[data-baseweb="select"] > div {
+    background: rgba(10,9,8,0.75) !important;
+    border: 1px solid rgba(201,164,92,0.30) !important;
+    color: #eee8dc !important;
+}
+
+/* BOTÓN */
+.stButton > button {
+    width: 100%;
+    background:
+        linear-gradient(
+            135deg,
+            #c9a45c,
+            #9e7939
+        );
+    color: #090807 !important;
+    border: none;
+    border-radius: 2px;
+    padding: 12px 25px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    transition: all 0.3s ease;
+}
+
+.stButton > button:hover {
+    background:
+        linear-gradient(
+            135deg,
+            #e0c27b,
+            #b58b45
+        );
+    box-shadow: 0 8px 25px rgba(201,164,92,0.20);
+    transform: translateY(-1px);
+}
+
+/* AUDIO */
 audio {
     width: 100%;
+    margin-top: 10px;
+}
+
+/* DIVISOR */
+hr {
+    border: none;
+    height: 1px;
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(201,164,92,0.35),
+            transparent
+        );
+    margin: 45px 0;
+}
+
+/* LINK DE DESCARGA */
+.download-link {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 18px;
+    border: 1px solid rgba(201,164,92,0.45);
+    color: #d6b36a !important;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+.download-link:hover {
+    background: rgba(201,164,92,0.10);
+    border-color: #d6b36a;
+}
+
+/* PIE */
+.footer {
+    text-align: center;
+    margin-top: 70px;
+    color: #756f66;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
 }
 
 </style>
 """, unsafe_allow_html=True)
 
 
-# ==========================================
-# CARPETA TEMPORAL
-# ==========================================
-
-try:
-    os.mkdir("temp")
-except:
-    pass
-
-
-# ==========================================
+# --------------------------------------------------
 # ENCABEZADO
-# ==========================================
+# --------------------------------------------------
 
 st.markdown(
     '<div class="museum-title">MUSEO DEL LOUVRE</div>',
@@ -185,9 +303,7 @@ st.markdown(
 )
 
 st.markdown(
-    '<div class="museum-subtitle">'
-    'Colección de arte · Leonardo da Vinci'
-    '</div>',
+    '<div class="museum-subtitle">Colección de obras maestras · Audioguía digital</div>',
     unsafe_allow_html=True
 )
 
@@ -197,117 +313,148 @@ st.markdown(
 )
 
 
-# ==========================================
+# --------------------------------------------------
 # SIDEBAR
-# ==========================================
+# --------------------------------------------------
 
 with st.sidebar:
 
-    st.markdown(
-        "### 🎧 Audioguía",
-        unsafe_allow_html=True
-    )
+    st.markdown("### AUDIOGUÍA")
 
-    st.write(
-        "Escribe o selecciona un texto para escucharlo."
+    st.markdown(
+        """
+        <p style="
+        color:#aaa296;
+        line-height:1.7;
+        font-family:Georgia;
+        ">
+        Explora la obra y utiliza la audioguía
+        para escuchar el contenido seleccionado.
+        </p>
+        """,
+        unsafe_allow_html=True
     )
 
     st.markdown("---")
 
-    st.write(
-        "Explora la historia de una de las obras "
-        "más reconocidas del arte occidental."
-    )
-
-
-# ==========================================
-# IMAGEN PRINCIPAL
-# ==========================================
-
-col1, col2 = st.columns([1, 1.4])
-
-
-with col1:
-
-    image = Image.open("monalisa.jpg")
-
-    st.image(
-        image,
-        width=350
-    )
-
-
-with col2:
-
     st.markdown(
-        '<h2>La Gioconda</h2>',
+        """
+        <p style="
+        color:#756f66;
+        font-family:Montserrat;
+        font-size:11px;
+        letter-spacing:1px;
+        ">
+        COLECCIÓN PERMANENTE
+        </p>
+        """,
         unsafe_allow_html=True
     )
 
     st.markdown(
         """
-        <div class="museum-card">
-        <p>
-        La Gioconda o Mona Lisa es una célebre obra pictórica
-        al óleo de Leonardo da Vinci, creada en su natal
-        Florencia entre los años 1503 y 1506, posiblemente
-        continuando hasta aproximadamente 1515 o 1517,
-        aunque esta fecha de conclusión tan imprecisa es
-        objeto de debate.
+        <p style="
+        color:#d6b36a;
+        font-family:Georgia;
+        font-size:16px;
+        ">
+        Leonardo da Vinci
         </p>
+        """,
+        unsafe_allow_html=True
+    )
 
-        <p>
-        La teoría más aceptada indica que retrata a
-        Lisa Gherardini, la esposa del rico comerciante
-        de sedas Francesco del Giocondo, motivo por el cual
-        lleva también el nombre de La Gioconda.
-        </p>
+
+# --------------------------------------------------
+# IMAGEN
+# --------------------------------------------------
+
+image = Image.open("monalisa.jpg")
+
+
+# --------------------------------------------------
+# OBRA
+# --------------------------------------------------
+
+col1, col2 = st.columns([0.95, 1.25], gap="large")
+
+with col1:
+
+    st.markdown('<div class="image-frame">', unsafe_allow_html=True)
+    st.image(image, use_container_width=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+
+
+with col2:
+
+    st.markdown(
+        '<div class="art-title">LA MONA LISA</div>',
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        '<div class="art-subtitle">La Gioconda · Leonardo da Vinci</div>',
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        """
+        <div class="art-description">
+        La Gioconda o Mona Lisa es una célebre obra pictórica
+        al óleo de Leonardo da Vinci, creada en su natal Florencia
+        entre los años 1503 y 1506, posiblemente continuando hasta
+        aproximadamente 1515 o 1517, aunque esta fecha de conclusión
+        tan imprecisa es objeto de debate.
+        <br><br>
+        La teoría más aceptada indica que retrata a Lisa Gherardini,
+        esposa del rico comerciante de sedas Francesco del Giocondo,
+        motivo por el cual también recibe el nombre de
+        <i>La Gioconda</i>.
         </div>
         """,
         unsafe_allow_html=True
     )
 
 
-# ==========================================
-# SECCIÓN AUDIO
-# ==========================================
+# --------------------------------------------------
+# AUDIOGUÍA
+# --------------------------------------------------
+
+st.markdown("<hr>", unsafe_allow_html=True)
 
 st.markdown(
-    '<h2>🎧 Audioguía de la obra</h2>',
+    '<div class="audio-title">AUDIOGUÍA DE LA OBRA</div>',
     unsafe_allow_html=True
 )
 
 st.markdown(
-    '<div class="gold-line"></div>',
+    """
+    <p style="
+    color:#aaa296;
+    font-family:Georgia;
+    font-size:15px;
+    ">
+    Copia o escribe un texto para convertirlo en una narración.
+    </p>
+    """,
     unsafe_allow_html=True
 )
-
-st.write(
-    "Introduce un texto y conviértelo en una narración "
-    "para acompañar tu recorrido por el museo."
-)
-
-
-# ==========================================
-# TEXTO
-# ==========================================
 
 text = st.text_area(
     "Texto para escuchar",
-    placeholder="Escribe aquí el texto que deseas escuchar...",
-    height=150
+    height=150,
+    placeholder="Escribe aquí el texto de la audioguía..."
 )
 
 
-# ==========================================
+# --------------------------------------------------
 # IDIOMA
-# ==========================================
+# --------------------------------------------------
 
 option_lang = st.selectbox(
-    "Selecciona el idioma",
+    "Idioma de la audioguía",
     ("Español", "English")
 )
-
 
 if option_lang == "Español":
     lg = "es"
@@ -315,9 +462,19 @@ else:
     lg = "en"
 
 
-# ==========================================
-# FUNCIÓN TEXT TO SPEECH
-# ==========================================
+# --------------------------------------------------
+# CARPETA TEMPORAL
+# --------------------------------------------------
+
+try:
+    os.mkdir("temp")
+except:
+    pass
+
+
+# --------------------------------------------------
+# TEXT TO SPEECH
+# --------------------------------------------------
 
 def text_to_speech(text, lg):
 
@@ -326,121 +483,87 @@ def text_to_speech(text, lg):
         lang=lg
     )
 
-    try:
-        my_file_name = text[:20]
-    except:
-        my_file_name = "audio"
-
-    # Evitar caracteres problemáticos
-    my_file_name = "".join(
-        c for c in my_file_name
+    safe_name = "".join(
+        c for c in text[:20]
         if c.isalnum() or c in (" ", "_", "-")
-    )
+    ).strip()
 
-    if not my_file_name:
-        my_file_name = "audio"
+    if not safe_name:
+        safe_name = "audio"
 
-    file_path = f"temp/{my_file_name}.mp3"
+    filename = f"temp/{safe_name}.mp3"
 
-    tts.save(file_path)
+    tts.save(filename)
 
-    return my_file_name, text
+    return safe_name, filename
 
 
-# ==========================================
-# BOTÓN DE AUDIO
-# ==========================================
+# --------------------------------------------------
+# BOTÓN
+# --------------------------------------------------
 
-if st.button("🎙️ Convertir a audio"):
+if st.button("✦  CONVERTIR A AUDIO"):
 
-    if text.strip() == "":
+    if not text.strip():
+
         st.warning(
-            "Escribe un texto antes de convertirlo en audio."
+            "Escribe un texto antes de generar la audioguía."
         )
 
     else:
 
-        result, output_text = text_to_speech(
+        result, audio_path = text_to_speech(
             text,
             lg
         )
 
-        audio_file = open(
-            f"temp/{result}.mp3",
-            "rb"
-        )
+        with open(audio_path, "rb") as audio_file:
 
-        audio_bytes = audio_file.read()
+            audio_bytes = audio_file.read()
 
         st.markdown(
-            '<h3>Tu audioguía</h3>',
+            '<div class="audio-title">REPRODUCCIÓN</div>',
             unsafe_allow_html=True
         )
 
         st.audio(
             audio_bytes,
-            format="audio/mp3",
-            start_time=0
+            format="audio/mp3"
         )
 
+        # --------------------------------------------------
+        # DESCARGA
+        # --------------------------------------------------
 
-        # ======================================
-        # DESCARGAR AUDIO
-        # ======================================
+        bin_str = base64.b64encode(
+            audio_bytes
+        ).decode()
 
-        with open(
-            f"temp/{result}.mp3",
-            "rb"
-        ) as f:
-
-            data = f.read()
-
-
-        def get_binary_file_downloader_html(
-            bin_file,
-            file_label="Archivo"
-        ):
-
-            bin_str = base64.b64encode(
-                data
-            ).decode()
-
-            href = (
-                f'<a href="data:audio/mp3;base64,'
-                f'{bin_str}" '
-                f'download="{os.path.basename(bin_file)}" '
-                f'style="color:#d4af37;'
-                f'font-weight:bold;">'
-                f'⬇️ Descargar {file_label}'
-                f'</a>'
-            )
-
-            return href
-
+        href = f"""
+        <a class="download-link"
+           href="data:application/octet-stream;base64,{bin_str}"
+           download="{result}.mp3">
+           ↓  GUARDAR AUDIO
+        </a>
+        """
 
         st.markdown(
-            get_binary_file_downloader_html(
-                f"temp/{result}.mp3",
-                "audioguía"
-            ),
+            href,
             unsafe_allow_html=True
         )
 
 
-# ==========================================
+# --------------------------------------------------
 # LIMPIAR ARCHIVOS ANTIGUOS
-# ==========================================
+# --------------------------------------------------
 
 def remove_files(n):
 
-    mp3_files = glob.glob(
-        "temp/*mp3"
-    )
+    mp3_files = glob.glob("temp/*mp3")
 
     if len(mp3_files) != 0:
 
         now = time.time()
-
         n_days = n * 86400
 
         for f in mp3_files:
@@ -451,3 +574,17 @@ def remove_files(n):
 
 
 remove_files(7)
+
+
+# --------------------------------------------------
+# FOOTER
+# --------------------------------------------------
+
+st.markdown(
+    """
+    <div class="footer">
+    MUSÉE DU LOUVRE · PARIS · DIGITAL AUDIO GUIDE
+    </div>
+    """,
+    unsafe_allow_html=True
+)
