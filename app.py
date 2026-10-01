@@ -347,7 +347,8 @@ with st.sidebar:
         """,
         unsafe_allow_html=True
     )
-st.markdown("---")
+    
+    st.markdown("---")
 
     st.markdown(
         """
