@@ -158,6 +158,99 @@ section[data-testid="stSidebar"] label {
     color: #ffffff !important; 
 } 
 
+/* ================================================== 
+   SIDEBAR 
+   ================================================== */ 
+ 
+section[data-testid="stSidebar"] { 
+    background: 
+        linear-gradient( 
+            180deg, 
+            #100804 0%, 
+            #261308 45%, 
+            #100704 100% 
+        ); 
+ 
+    border-right: 1px solid rgba(214,179,106,0.25); 
+} 
+ 
+section[data-testid="stSidebar"] h2, 
+section[data-testid="stSidebar"] h3 { 
+    font-family: 'Cormorant Garamond', Georgia, serif !important; 
+    color: #d6b36a !important; 
+    font-size: 22px; 
+    letter-spacing: 2px; 
+} 
+ 
+section[data-testid="stSidebar"] p, 
+section[data-testid="stSidebar"] span, 
+section[data-testid="stSidebar"] label { 
+    font-family: 'Poppins', sans-serif !important; 
+    color: #ffffff !important; 
+} 
+
+/* ================================================== 
+   SIDEBAR 
+   ================================================== */ 
+ 
+section[data-testid="stSidebar"] { 
+    background: 
+        linear-gradient( 
+            180deg, 
+            #100804 0%, 
+            #261308 45%, 
+            #100704 100% 
+        ); 
+ 
+    border-right: 1px solid rgba(214,179,106,0.25); 
+} 
+ 
+section[data-testid="stSidebar"] h2, 
+section[data-testid="stSidebar"] h3 { 
+    font-family: 'Cormorant Garamond', Georgia, serif !important; 
+    color: #d6b36a !important; 
+    font-size: 22px; 
+    letter-spacing: 2px; 
+} 
+ 
+section[data-testid="stSidebar"] p, 
+section[data-testid="stSidebar"] span, 
+section[data-testid="stSidebar"] label { 
+    font-family: 'Poppins', sans-serif !important; 
+    color: #ffffff !important; 
+} 
+
+/* ================================================== 
+   SIDEBAR 
+   ================================================== */ 
+ 
+section[data-testid="stSidebar"] { 
+    background: 
+        linear-gradient( 
+            180deg, 
+            #100804 0%, 
+            #261308 45%, 
+            #100704 100% 
+        ); 
+ 
+    border-right: 1px solid rgba(214,179,106,0.25); 
+} 
+ 
+section[data-testid="stSidebar"] h2, 
+section[data-testid="stSidebar"] h3 { 
+    font-family: 'Cormorant Garamond', Georgia, serif !important; 
+    color: #d6b36a !important; 
+    font-size: 22px; 
+    letter-spacing: 2px; 
+} 
+ 
+section[data-testid="stSidebar"] p, 
+section[data-testid="stSidebar"] span, 
+section[data-testid="stSidebar"] label { 
+    font-family: 'Poppins', sans-serif !important; 
+    color: #ffffff !important; 
+} 
+
 /* ==================================================
    BOTÓN DEL SIDEBAR
    ================================================== */
